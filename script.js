@@ -10,6 +10,7 @@ let todayContainer = document.querySelector('#today');
 let forecastContainer = document.querySelector('#forecast');
 
 
+
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
 
@@ -20,6 +21,7 @@ dayjs.extend(window.dayjs_plugin_timezone);
 // list will appear 
 let cities = JSON.parse(localStorage.getItem('cities')) || [];
 let city = "";
+
 searchBtn.addEventListener("click" ,function(event){
   event.preventDefault();
   city = input.value;
@@ -52,6 +54,7 @@ function appendToHistory(city) {
   localStorage.setItem('cities',JSON.stringify(cities));
   renderHistoryList();
 }
+
 
 
 function renderCurrentWeather(city, weather) {
@@ -151,7 +154,7 @@ function renderForecast(dailyForecast) {
   forecastContainer.innerHTML = '';
   forecastContainer.append(headingCol);
 
-  for (var i = 0; i < dailyForecast.length; i++) {
+  for (let i = 0; i < dailyForecast.length; i++) {
     if (dailyForecast[i].dt >= startDt && dailyForecast[i].dt < endDt) {
       if (dailyForecast[i].dt_txt.slice(11, 13) == "12") {
         renderForecastCard(dailyForecast[i]);
@@ -209,15 +212,14 @@ function fetchWeather(location) {
 }
 
 function historyClick(event) {
-  // // Don't do search if current elements is not a search history button
   if (!event.target.matches('.btn-history')) {
     return;
   }
 
-  let btn = event.target;
-  let city =  btn.setAttribute('data-search')
+  let listHistory = event.target;
+  let city =  listHistory.getAttribute('data-search');
   fetchCity(city);
 }
 
 
-history.addEventListener('click', historyClick);
+history.addEventListener('click',historyClick);
